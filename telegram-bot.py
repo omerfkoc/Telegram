@@ -50,7 +50,7 @@ def add_users_to_group():
     random.shuffle(users)
     chats = []
     last_date = None
-    chunk_size = 10
+    chunk_size = 200
     groups=[]
 
     result = client(GetDialogsRequest(
@@ -151,6 +151,8 @@ def list_users_in_group():
     print('Fetching Members...')
     all_participants = []
     all_participants = client.get_participants(target_group,aggressive=True)
+    data = pd.DataFrame(all_participants)
+    print(data.count)
     print('Saving In file...')
     with open("members-" + re.sub("-+","-",re.sub("[^a-zA-Z]","-",str.lower(target_group.title))) + ".csv","w",encoding='UTF-8') as f:
         writer = csv.writer(f,delimiter=",",lineterminator="\n")
@@ -189,12 +191,7 @@ def printCSV():
     sys.exit('FINITO')
 
 def remark_in_excel(user_id):
-    # reading the csv file 
-    df = pd.read_csv("AllDetails.csv") 
-    # updating the column value/data 
-    df['isAdded'] = df['isAdded'].replace({'0': '1'}) 
-    # writing into the file 
-    df.to_csv("AllDetails.csv", index=False) 
+    
     print(df) 
 
 # print('Fetching Members...')
